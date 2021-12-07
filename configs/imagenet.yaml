@@ -1,0 +1,56 @@
+image_size: 64 # both the dataset and model will depend on this param
+epochs: 100
+# patch_size: 16
+
+dataset:
+  name: imagenet # name of the dataset, same with data folder name. $HOME/Data/ImageNet
+  root: './Data/'
+  folder_name: 'ImageNet' # name of your imagenet dataset. such as 'ILSVRC2012', 'ImageNet', 'imagenet' etc.
+  download: False
+
+train_loader:
+  batch_size: 2048
+  shuffle: True
+  pin_memory: True
+  drop_last: True
+
+test_loader:
+  batch_size: 5
+  shuffle: False
+  pin_memory: True
+
+model:
+  name: MAE
+  image_channel: 3
+  # image_size: 224
+  patch_size: 8
+  enc_dim: 128
+  encoder:
+    num_layers: 8
+    norm: null
+    # layer_kwargs:
+    nhead: 8
+    dim_feedforward: 512
+    dropout: 0
+    activation: relu
+
+  dec_dim: 128
+  decoder:
+    num_layers: 6
+    norm: null
+    # layer_kwargs:
+    nhead: 8
+    dim_feedforward: 512
+    dropout: 0
+    activation: relu
+  mask_ratio: 0.75
+# image_channel, image_size, patch_size, enc_dim, dec_dim, encoder, decoder, mask_ratio=0.75
+
+
+optimizer:
+  name: AdamW
+
+scheduler:
+  name: cosine
+  lr: 0.001
+  warmup_epochs: 5
